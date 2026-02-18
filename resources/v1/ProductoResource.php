@@ -2,6 +2,7 @@
 
 require_once '../config/database.php';
 require_once '../models/Producto.php';
+require_once '../middleware/AuthMiddleware.php';
 
 class ProductoResource
 {
@@ -18,6 +19,7 @@ class ProductoResource
     // GET /api/v1/productos
     public function index()
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $stmt = $this->producto->read();
@@ -53,6 +55,7 @@ class ProductoResource
     // GET /api/v1/productos/{id}
     public function show($id)
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $this->producto->id = $id;
@@ -80,6 +83,7 @@ class ProductoResource
     // POST /api/v1/productos
     public function store()
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $data = json_decode(file_get_contents("php://input"));
@@ -110,6 +114,7 @@ class ProductoResource
     // PUT /api/v1/productos/{id}
     public function update($id)
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $data = json_decode(file_get_contents("php://input"));
@@ -139,6 +144,7 @@ class ProductoResource
     // DELETE /api/v1/productos/{id}
     public function destroy($id)
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $this->producto->id = $id;

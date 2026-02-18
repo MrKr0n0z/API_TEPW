@@ -2,6 +2,7 @@
 
 require_once '../config/database.php';
 require_once '../models/User.php';
+require_once '../middleware/AuthMiddleware.php';
 
 class UserResource
 {
@@ -18,6 +19,7 @@ class UserResource
     // GET /api/v1/users
     public function index()
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $stmt = $this->user->read();
@@ -49,6 +51,7 @@ class UserResource
     // GET /api/v1/users/{id}
     public function show($id)
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $this->user->id = $id;
@@ -72,6 +75,7 @@ class UserResource
     // POST /api/v1/users
     public function store()
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $data = json_decode(file_get_contents("php://input"));
@@ -99,6 +103,7 @@ class UserResource
     // PUT /api/v1/users/{id}
     public function update($id)
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $data = json_decode(file_get_contents("php://input"));
@@ -125,6 +130,7 @@ class UserResource
     // DELETE /api/v1/users/{id}
     public function destroy($id)
     {
+        AuthMiddleware::authenticate();
         header("Content-Type: application/json");
 
         $this->user->id = $id;
